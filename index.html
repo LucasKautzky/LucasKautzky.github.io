@@ -8,124 +8,207 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #0d0f12; --surface: #141619; --surface2: #1c1f23;
-    --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
-    --accent: #C41E3A; --accent2: #4fa3c4;
-    --text: #e8e6df; --muted: #7a7a72;
-    --mono: 'Space Mono', monospace; --sans: 'DM Sans', sans-serif;
+    --bg: #0a0b0d;
+    --surface: #111315;
+    --surface2: #181b1e;
+    --border: rgba(255,255,255,0.06);
+    --border2: rgba(255,255,255,0.12);
+    --red: #C41E3A;
+    --gold: #CFB53B;
+    --gold2: #e8d06a;
+    --text: #e8e6df;
+    --muted: #6b6b63;
+    --mono: 'Space Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
   }
   html { scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
   a { color: inherit; text-decoration: none; }
 
+  /* NAV */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; justify-content: space-between; align-items: center;
-    padding: 0 3rem; height: 60px;
-    background: rgba(13,15,18,0.85); backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
+    padding: 0 3rem; height: 56px;
+    background: rgba(10,11,13,0.9); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border2);
   }
-  .nav-logo { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.08em; }
+  .nav-logo { font-family: var(--mono); font-size: 12px; color: var(--gold); letter-spacing: 0.1em; }
   .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; color: var(--muted); transition: color 0.2s; text-transform: uppercase; }
-  .nav-links a:hover { color: var(--text); }
+  .nav-links a { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; color: var(--muted); transition: color 0.2s; text-transform: uppercase; }
+  .nav-links a:hover { color: var(--gold); }
 
+  /* HERO */
   #hero {
     min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
-    padding: 6rem 3rem 4rem; position: relative; overflow: hidden;
+    padding: 7rem 3rem 5rem; position: relative; overflow: hidden;
   }
-  .hero-grid-bg {
-    position: absolute; inset: 0;
-    background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
-    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+
+  .blueprint-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(196,30,58,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(196,30,58,0.05) 1px, transparent 1px),
+      linear-gradient(rgba(207,181,59,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(207,181,59,0.025) 1px, transparent 1px);
+    background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+    mask-image: radial-gradient(ellipse 90% 90% at 40% 50%, black 20%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 90% at 40% 50%, black 20%, transparent 100%);
+  }
+
+  /* Turbine watermark */
+  .turbine-bg {
+    position: absolute; right: 4%; top: 50%; transform: translateY(-50%);
+    opacity: 0.055; width: min(480px, 50vw); height: min(480px, 50vw);
     pointer-events: none;
   }
-  .hero-tag { font-family: var(--mono); font-size: 12px; letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
-  .hero-tag::before { content: ''; display: block; width: 32px; height: 1px; background: var(--accent); }
-  h1.hero-name { font-family: var(--mono); font-size: clamp(2.5rem, 7vw, 5.5rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; max-width: 14ch; margin-bottom: 1.5rem; }
-  .hero-name span { color: var(--accent); }
-  .hero-desc { font-size: 1.1rem; color: var(--muted); max-width: 48ch; line-height: 1.7; margin-bottom: 2.5rem; font-weight: 300; }
+
+  /* Corner registration marks */
+  .corner { position: absolute; width: 14px; height: 14px; }
+  .corner-tl { top: 70px; left: 20px; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); opacity: 0.4; }
+  .corner-tr { top: 70px; right: 20px; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); opacity: 0.4; }
+  .corner-bl { bottom: 56px; left: 20px; border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); opacity: 0.4; }
+  .corner-br { bottom: 56px; right: 20px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); opacity: 0.4; }
+
+  /* Blueprint title block */
+  .title-block {
+    position: absolute; bottom: 0; right: 0;
+    border-left: 1px solid var(--border2); border-top: 1px solid var(--border2);
+    display: flex;
+  }
+  .title-block-cell {
+    padding: 0.5rem 1.2rem; border-right: 1px solid var(--border);
+    font-family: var(--mono); font-size: 9px; color: var(--muted);
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .title-block-cell:last-child { border-right: none; }
+  .title-block-cell span { display: block; color: var(--gold); margin-top: 3px; font-size: 10px; }
+
+  .hero-eyebrow {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.25em;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--gold); display: block; }
+
+  h1.hero-name {
+    font-family: var(--mono); font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 700; line-height: 1.05; letter-spacing: -0.02em;
+    max-width: 12ch; margin-bottom: 1.5rem;
+  }
+  h1.hero-name em { color: var(--gold); font-style: normal; }
+
+  .hero-desc { font-size: 1.05rem; color: var(--muted); max-width: 44ch; line-height: 1.75; margin-bottom: 2.5rem; font-weight: 300; }
+
   .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .btn { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem 1.8rem; border-radius: 3px; transition: all 0.2s; cursor: pointer; border: 1px solid; display: inline-block; }
-  .btn-primary { background: var(--accent); border-color: var(--accent); color: #e8e6df; font-weight: 700; }
+  .btn { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 1.75rem; border-radius: 2px; transition: all 0.2s; border: 1px solid; display: inline-block; }
+  .btn-primary { background: var(--red); border-color: var(--red); color: #fff; font-weight: 700; }
   .btn-primary:hover { background: #a01830; border-color: #a01830; }
   .btn-secondary { background: transparent; border-color: var(--border2); color: var(--muted); }
-  .btn-secondary:hover { border-color: var(--text); color: var(--text); }
-  .hero-scroll { position: absolute; bottom: 2.5rem; left: 3rem; display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
-  .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--accent), transparent); animation: scrollPulse 2s ease-in-out infinite; }
-  @keyframes scrollPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
 
-  section { padding: 6rem 3rem; max-width: 1100px; margin: 0 auto; }
-  .section-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 10px; }
-  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border2); }
-  h2.section-title { font-family: var(--mono); font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; margin-bottom: 3rem; letter-spacing: -0.02em; }
+  .hero-scroll {
+    position: absolute; bottom: 2rem; left: 3rem;
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--mono); font-size: 10px; color: var(--muted);
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .scroll-line { width: 1px; height: 36px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+  @keyframes scrollPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+  /* SPEC STRIP */
+  .spec-strip { display: flex; border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border); }
+  .spec-cell { flex: 1; padding: 1.25rem 2rem; border-right: 1px solid var(--border); }
+  .spec-cell:last-child { border-right: none; }
+  .spec-key { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+  .spec-val { font-family: var(--mono); font-size: 1.8rem; font-weight: 700; color: var(--gold); line-height: 1; }
+  .spec-sub { font-size: 11px; color: var(--muted); margin-top: 4px; font-weight: 300; }
+
+  /* SECTIONS */
+  section { padding: 5rem 3rem; max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 0.6rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, var(--border2), transparent); }
+  h2.section-title { font-family: var(--mono); font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; margin-bottom: 2.5rem; letter-spacing: -0.02em; }
   .full-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
 
   /* ABOUT */
-  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-  .about-text p { color: var(--muted); font-weight: 300; margin-bottom: 1rem; font-size: 1.05rem; }
-  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
-  .stat-cell { background: var(--surface); padding: 1.5rem; }
-  .stat-num { font-family: var(--mono); font-size: 2rem; font-weight: 700; color: var(--accent); display: block; }
-  .stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: start; }
+  .about-text p { color: var(--muted); font-weight: 300; margin-bottom: 1rem; font-size: 1.02rem; line-height: 1.75; }
 
   /* SKILLS */
-  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
-  .skill-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; cursor: pointer; transition: border-color 0.2s; user-select: none; }
-  .skill-card:hover { border-color: var(--border2); }
-  .skill-card.open { border-color: var(--accent); }
-  .skill-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.25rem; }
-  .skill-icon { width: 36px; height: 36px; background: var(--surface2); border: 1px solid var(--border2); border-radius: 3px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .skill-icon svg { width: 18px; height: 18px; stroke: var(--accent); fill: none; stroke-width: 1.5; }
-  .skill-card-title { font-family: var(--mono); font-size: 13px; letter-spacing: 0.05em; color: var(--text); flex: 1; }
-  .skill-chevron { width: 16px; height: 16px; stroke: var(--muted); fill: none; stroke-width: 2; transition: transform 0.25s ease, stroke 0.2s; flex-shrink: 0; }
-  .skill-card.open .skill-chevron { transform: rotate(180deg); stroke: var(--accent); }
-  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tag { font-family: var(--mono); font-size: 11px; padding: 3px 10px; border-radius: 2px; background: var(--surface2); color: var(--muted); border: 1px solid var(--border); letter-spacing: 0.05em; }
-  .skill-detail { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, opacity 0.25s ease; opacity: 0; }
-  .skill-card.open .skill-detail { max-height: 200px; opacity: 1; }
-  .skill-detail-inner { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.7; }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
+  .skill-card { background: var(--surface); padding: 1.5rem; cursor: pointer; transition: background 0.2s; user-select: none; border-top: 2px solid transparent; }
+  .skill-card:hover { background: var(--surface2); }
+  .skill-card.open { background: var(--surface2); border-top-color: var(--red); }
+  .skill-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.1rem; }
+  .skill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .skill-card-title { font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text); flex: 1; }
+  .skill-chevron { width: 14px; height: 14px; stroke: var(--muted); fill: none; stroke-width: 2; transition: transform 0.25s, stroke 0.2s; flex-shrink: 0; }
+  .skill-card.open .skill-chevron { transform: rotate(180deg); stroke: var(--gold); }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag { font-family: var(--mono); font-size: 10px; padding: 3px 9px; border-radius: 1px; background: rgba(207,181,59,0.07); color: var(--muted); border: 1px solid rgba(207,181,59,0.15); letter-spacing: 0.04em; }
+  .skill-detail { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, opacity 0.25s; opacity: 0; }
+  .skill-card.open .skill-detail { max-height: 180px; opacity: 1; }
+  .skill-detail-inner { margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--muted); font-weight: 300; line-height: 1.7; }
+
+  /* COURSEWORK */
+  .courses-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .course-group-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+  .course-list { display: flex; flex-direction: column; gap: 7px; }
+  .course-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); font-weight: 300; }
+  .course-item.current { color: var(--text); }
+  .course-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .course-dot.done { background: var(--red); }
+  .course-dot.in-progress { background: var(--gold); box-shadow: 0 0 5px var(--gold); }
+  .course-dot.upcoming { background: transparent; border: 1px solid var(--muted); }
+  .course-legend { display: flex; gap: 1.5rem; margin-bottom: 2rem; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.06em; }
 
   /* PROJECTS */
-  .projects-grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
-  .project-row { display: grid; grid-template-columns: 60px 1fr auto; align-items: center; gap: 2rem; background: var(--surface); padding: 1.5rem 2rem; transition: background 0.2s; }
-  .project-row:hover { background: var(--surface2); }
-  .project-num { font-family: var(--mono); font-size: 12px; color: var(--muted); }
-  .project-info h3 { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; letter-spacing: 0.03em; }
-  .project-info p { font-size: 13px; color: var(--muted); font-weight: 300; max-width: 60ch; }
-  .project-badge { font-family: var(--mono); font-size: 11px; padding: 4px 12px; border-radius: 2px; white-space: nowrap; letter-spacing: 0.06em; }
-  .badge-design { background: rgba(79,163,196,0.12); color: #4fa3c4; border: 1px solid rgba(79,163,196,0.25); }
-  .badge-print { background: rgba(232,197,109,0.1); color: #e8c56d; border: 1px solid rgba(232,197,109,0.2); }
-  .badge-sae { background: rgba(120,180,100,0.1); color: #90c878; border: 1px solid rgba(120,180,100,0.2); }
+  .projects-grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
+  .project-row { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 2rem; background: var(--surface); padding: 1.5rem 2rem; transition: background 0.2s; border-left: 2px solid transparent; }
+  .project-row:hover { background: var(--surface2); border-left-color: var(--red); }
+  .project-num { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .project-info h3 { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 5px; letter-spacing: 0.03em; }
+  .project-info p { font-size: 13px; color: var(--muted); font-weight: 300; max-width: 58ch; line-height: 1.65; }
+  .project-badge { font-family: var(--mono); font-size: 10px; padding: 3px 10px; border-radius: 1px; white-space: nowrap; letter-spacing: 0.06em; }
+  .badge-design { background: rgba(79,163,196,0.1); color: #5ab0d4; border: 1px solid rgba(79,163,196,0.2); }
+  .badge-print { background: rgba(207,181,59,0.08); color: var(--gold2); border: 1px solid rgba(207,181,59,0.2); }
+  .badge-sae { background: rgba(196,30,58,0.1); color: #e05070; border: 1px solid rgba(196,30,58,0.2); }
 
   /* CONTACT */
   .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-  .contact-text p { color: var(--muted); font-weight: 300; margin-bottom: 2rem; }
+  .contact-text p { color: var(--muted); font-weight: 300; margin-bottom: 2rem; line-height: 1.75; }
   .contact-links { display: flex; flex-direction: column; gap: 1rem; }
-  .contact-link { display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.05em; transition: color 0.2s; }
-  .contact-link:hover { color: var(--accent); }
-  .contact-link svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; flex-shrink: 0; }
+  .contact-link { display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.05em; transition: color 0.2s; }
+  .contact-link:hover { color: var(--gold); }
+  .contact-link svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; flex-shrink: 0; }
 
-  footer { border-top: 1px solid var(--border); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
-  footer p { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.05em; }
+  footer { border-top: 1px solid var(--border2); padding: 1.75rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+  footer p { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.06em; }
 
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-  .hero-tag { animation: fadeUp 0.6s ease both; }
-  h1.hero-name { animation: fadeUp 0.6s 0.1s ease both; }
-  .hero-desc { animation: fadeUp 0.6s 0.2s ease both; }
-  .hero-cta { animation: fadeUp 0.6s 0.3s ease both; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-eyebrow { animation: fadeUp 0.5s ease both; }
+  h1.hero-name { animation: fadeUp 0.5s 0.08s ease both; }
+  .hero-desc { animation: fadeUp 0.5s 0.16s ease both; }
+  .hero-cta { animation: fadeUp 0.5s 0.24s ease both; }
 
   @media (max-width: 700px) {
     nav { padding: 0 1.5rem; }
-    section { padding: 4rem 1.5rem; }
     #hero { padding: 5rem 1.5rem 4rem; }
-    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    section { padding: 3.5rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .courses-wrap { grid-template-columns: 1fr; gap: 2rem; }
     .contact-wrap { grid-template-columns: 1fr; gap: 2rem; }
+    .spec-strip { flex-wrap: wrap; }
+    .spec-cell { flex: 1 1 40%; }
     .project-row { grid-template-columns: 40px 1fr; }
     .project-badge { display: none; }
-    .hero-scroll { display: none; }
+    .hero-scroll, .corner, .title-block { display: none; }
     footer { flex-direction: column; gap: 0.5rem; text-align: center; }
   }
 </style>
@@ -137,25 +220,55 @@
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
+    <li><a href="#coursework">Coursework</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
 <section id="hero">
-  <div class="hero-grid-bg"></div>
-  <div class="hero-tag">Mechanical Engineering Student — Iowa State University</div>
-  <h1 class="hero-name">Lucas<br><span>Kautzky</span></h1>
+  <div class="blueprint-bg"></div>
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
+
+  <svg class="turbine-bg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="90" fill="none" stroke="white" stroke-width="0.5"/>
+    <circle cx="100" cy="100" r="60" fill="none" stroke="white" stroke-width="0.5"/>
+    <circle cx="100" cy="100" r="20" fill="none" stroke="white" stroke-width="1"/>
+    <g transform="rotate(0 100 100)"><path d="M100 80 Q120 50 100 10 Q80 50 100 80Z" fill="white"/></g>
+    <g transform="rotate(45 100 100)"><path d="M100 80 Q120 50 100 10 Q80 50 100 80Z" fill="white"/></g>
+    <g transform="rotate(90 100 100)"><path d="M100 80 Q120 50 100 10 Q80 50 100 80Z" fill="white"/></g>
+    <g transform="rotate(135 100 100)"><path d="M100 80 Q120 50 100 10 Q80 50 100 80Z" fill="white"/></g>
+    <g transform="rotate(180 100 100)"><path d="M100 80 Q120 50 100 10 Q80 50 100 80Z" fill="white"/></g>
+    <g transform="rotate(225 100 100)"><path d="M100 80 Q120 50 100 10 Q80 50 100 80Z" fill="white"/></g>
+    <g transform="rotate(270 100 100)"><path d="M100 80 Q120 50 100 10 Q80 50 100 80Z" fill="white"/></g>
+    <g transform="rotate(315 100 100)"><path d="M100 80 Q120 50 100 10 Q80 50 100 80Z" fill="white"/></g>
+    <circle cx="100" cy="100" r="10" fill="white"/>
+  </svg>
+
+  <div class="hero-eyebrow">Mechanical Engineering Student — Iowa State University</div>
+  <h1 class="hero-name">Lucas<br><em>Kautzky</em></h1>
   <p class="hero-desc">Building things — from formula car cooling systems to night-vision helmets. Mechanical engineering student with a hands-on approach to design, fabrication, and problem solving.</p>
   <div class="hero-cta">
     <a href="#projects" class="btn btn-primary">View Projects</a>
     <a href="#contact" class="btn btn-secondary">Get in Touch</a>
   </div>
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    Scroll
+  <div class="hero-scroll"><div class="scroll-line"></div>Scroll</div>
+
+  <div class="title-block">
+    <div class="title-block-cell">School<span>Iowa State</span></div>
+    <div class="title-block-cell">Program<span>ME — B.S.</span></div>
   </div>
 </section>
+
+<div class="spec-strip">
+  <div class="spec-cell"><div class="spec-key">GPA</div><div class="spec-val">2.81</div><div class="spec-sub">B.S. Mechanical Engineering</div></div>
+  <div class="spec-cell"><div class="spec-key">Graduation</div><div class="spec-val">May '29</div><div class="spec-sub">Expected</div></div>
+  <div class="spec-cell"><div class="spec-key">Team</div><div class="spec-val">SAE</div><div class="spec-sub">Formula — Powertrain</div></div>
+  <div class="spec-cell"><div class="spec-key">Location</div><div class="spec-val">ISU</div><div class="spec-sub">Ames, Iowa</div></div>
+</div>
 
 <hr class="full-divider">
 
@@ -164,27 +277,13 @@
   <h2 class="section-title">Who I Am</h2>
   <div class="about-grid">
     <div class="about-text">
-      <p>I'm a mechanical engineering student at Iowa State University with a passion for hands-on design and fabrication. My coursework covers statics, dynamics, thermodynamics, and materials science.</p>
-      <p>On the SAE Formula Team, I work as a junior cooling engineer — researching tubing options and routing cooling systems through a competition-spec formula car. I enjoy the bridge between theory and physical build.</p>
-      <p>Outside of engineering, I've been playing guitar since 2017 — performing in concert series with rotating band lineups in front of 100+ audience members.</p>
+      <p>I'm a mechanical engineering student at Iowa State University who enjoys designing, building, and figuring out how things work. I'm especially interested in aerospace, propulsion, and high-performance engineering, and I like projects where I can take something from an idea to something I can actually build.</p>
+      <p>I'm a member of Iowa State's SAE Formula Team, where I work on the powertrain subsystem. I've designed switch plates, researched rules-compliant components, and previously worked as a junior cooling engineer, helping route cooling systems through the car's chassis. Formula has given me a chance to take what I'm learning in classes like statics, thermodynamics, and materials science and apply it to an actual car.</p>
+      <p>A lot of what I enjoy about engineering also carries into my personal projects. I'm currently building a night-vision helmet with an integrated IR camera and display, and 3D printing has been a hobby of mine for years. My projects have ranged from replacement parts for antique tractors to full-scale Halo armor. I like projects that force me to learn something new, whether that's electronics, programming, CAD, or fabrication.</p>
     </div>
-    <div class="about-stats">
-      <div class="stat-cell">
-        <span class="stat-num">3.33</span>
-        <div class="stat-label">GPA</div>
-      </div>
-      <div class="stat-cell">
-        <span class="stat-num">May '29</span>
-        <div class="stat-label">Expected graduation</div>
-      </div>
-      <div class="stat-cell">
-        <span class="stat-num">SAE</span>
-        <div class="stat-label">Formula Team — Cooling</div>
-      </div>
-      <div class="stat-cell">
-        <span class="stat-num">ISU</span>
-        <div class="stat-label">Iowa State University</div>
-      </div>
+    <div class="about-text">
+      <p>Outside of engineering, I've played guitar since 2017 and have performed in concert series with rotating bands for audiences of more than 250 people.</p>
+      <p>My long-term goal is to work in aerospace propulsion, specifically jet engines. I've always been fascinated by the amount of thermodynamics, materials science, and precision engineering required to make a turbine work, and that's the kind of engineering challenge I want to build my career around.</p>
     </div>
   </div>
 </section>
@@ -198,63 +297,104 @@
 
     <div class="skill-card" onclick="this.classList.toggle('open')">
       <div class="skill-card-header">
-        <div class="skill-icon">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg>
-        </div>
+        <div class="skill-dot"></div>
         <span class="skill-card-title">CAD / Modeling</span>
         <svg class="skill-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="skill-tags">
-        <span class="tag">SolidWorks</span>
-        <span class="tag">Autodesk Inventor</span>
-        <span class="tag">Onshape</span>
-        <span class="tag">Mesh Mixer</span>
+        <span class="tag">SolidWorks</span><span class="tag">Autodesk Inventor</span><span class="tag">Onshape</span><span class="tag">Mesh Mixer</span>
       </div>
       <div class="skill-detail">
-        <div class="skill-detail-inner">
-          Used SolidWorks as a core tool on the SAE Formula Team to model and route the cooling system through the car chassis. Also used Autodesk Inventor and Onshape for personal projects including the John Deere tractor headlight housing.
-        </div>
+        <div class="skill-detail-inner">Used SolidWorks and Onshape on the SAE Formula Team to design a switch plate for mounting master switches and the TSMP to the chassis. Also used for personal projects including the custom John Deere tractor headlight housing.</div>
       </div>
     </div>
 
     <div class="skill-card" onclick="this.classList.toggle('open')">
       <div class="skill-card-header">
-        <div class="skill-icon">
-          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-        </div>
+        <div class="skill-dot"></div>
         <span class="skill-card-title">3D Printing / FDM</span>
         <svg class="skill-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="skill-tags">
-        <span class="tag">Bambu Studio</span>
-        <span class="tag">Creality Slicer</span>
-        <span class="tag">FDM Printing</span>
+        <span class="tag">Bambu Studio</span><span class="tag">Creality Slicer</span><span class="tag">FDM Printing</span>
       </div>
       <div class="skill-detail">
-        <div class="skill-detail-inner">
-          Extensive hands-on FDM experience across multiple printers. Printed a full-scale set of Halo Spartan armor, a custom tractor headlight housing, and am currently building a night-vision helmet with an integrated IR camera display.
-        </div>
+        <div class="skill-detail-inner">Extensive hands-on FDM experience across multiple printers. Printed a full-scale set of Halo Spartan armor, a custom tractor headlight housing, and am currently building a night-vision helmet with an integrated IR camera display.</div>
       </div>
     </div>
 
     <div class="skill-card" onclick="this.classList.toggle('open')">
       <div class="skill-card-header">
-        <div class="skill-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-        </div>
+        <div class="skill-dot"></div>
         <span class="skill-card-title">Core Engineering</span>
         <svg class="skill-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="skill-tags">
-        <span class="tag">Statics</span>
-        <span class="tag">Dynamics</span>
-        <span class="tag">Thermodynamics</span>
-        <span class="tag">Materials science</span>
+        <span class="tag">Statics</span><span class="tag">Thermodynamics</span><span class="tag">Materials science</span>
       </div>
       <div class="skill-detail">
-        <div class="skill-detail-inner">
-          Actively studying these topics at Iowa State in the BS Mechanical Engineering program. Applied statics and force analysis concepts directly through the SAE Formula Team's powertrain and cooling work.
-        </div>
+        <div class="skill-detail-inner">Studying statics and materials science at Iowa State. Applied basic thermodynamics concepts while working as a junior cooling engineer on the SAE Formula Team, selecting and routing cooling tubes through the car.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="full-divider">
+
+<section id="coursework">
+  <div class="section-label">03 &mdash; Coursework</div>
+  <h2 class="section-title">Academic Progress</h2>
+  <div class="course-legend">
+    <div class="legend-item"><div class="course-dot done"></div>Completed</div>
+    <div class="legend-item"><div class="course-dot in-progress"></div>In Progress (Fall 2026)</div>
+    <div class="legend-item"><div class="course-dot upcoming"></div>Upcoming</div>
+  </div>
+  <div class="courses-wrap">
+
+    <div>
+      <div class="course-group-title">Mathematics &amp; Sciences</div>
+      <div class="course-list">
+        <div class="course-item"><div class="course-dot done"></div>MATH 1650 — Calculus I</div>
+        <div class="course-item"><div class="course-dot done"></div>MATH 1660 — Calculus II</div>
+        <div class="course-item current"><div class="course-dot in-progress"></div>MATH 2650 — Calculus III</div>
+        <div class="course-item"><div class="course-dot done"></div>CHEM 1670 — Chemistry</div>
+        <div class="course-item"><div class="course-dot done"></div>PHYS 2310+L — Physics I</div>
+        <div class="course-item current"><div class="course-dot in-progress"></div>PHYS 2320+L — Physics II</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="course-group-title">Engineering Core</div>
+      <div class="course-list">
+        <div class="course-item"><div class="course-dot done"></div>ENGR 1010 — Orientation</div>
+        <div class="course-item"><div class="course-dot done"></div>ME 1600 — Analysis</div>
+        <div class="course-item"><div class="course-dot done"></div>ME 1700 — Graphics/CAD</div>
+        <div class="course-item current"><div class="course-dot in-progress"></div>CE 2710 — Found. of Statics</div>
+        <div class="course-item"><div class="course-dot upcoming"></div>CE 2720 — Applied Statics</div>
+        <div class="course-item current"><div class="course-dot in-progress"></div>MATE 2730 — Materials</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="course-group-title">General Education</div>
+      <div class="course-list">
+        <div class="course-item"><div class="course-dot done"></div>ENGL 1500 — Critical Thinking</div>
+        <div class="course-item"><div class="course-dot done"></div>LIB 1600 — Library</div>
+        <div class="course-item current"><div class="course-dot in-progress"></div>ENGL 2500 — Communication</div>
+        <div class="course-item"><div class="course-dot done"></div>Gen Ed — Econ 1010/1020</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="course-group-title">Upcoming</div>
+      <div class="course-list">
+        <div class="course-item"><div class="course-dot upcoming"></div>MATH 2670 — Diff. Equations</div>
+        <div class="course-item"><div class="course-dot upcoming"></div>ME 2310 — Thermo I</div>
+        <div class="course-item"><div class="course-dot upcoming"></div>EM 3240 — Mech. of Materials</div>
+        <div class="course-item"><div class="course-dot upcoming"></div>ME 3250 — Mechanical Design</div>
+        <div class="course-item"><div class="course-dot upcoming"></div>ME 3350 — Fluids</div>
+        <div class="course-item"><div class="course-dot upcoming"></div>ME 4360 — Heat Transfer</div>
       </div>
     </div>
 
@@ -264,12 +404,30 @@
 <hr class="full-divider">
 
 <section id="projects">
-  <div class="section-label">03 &mdash; Projects</div>
+  <div class="section-label">04 &mdash; Projects</div>
   <h2 class="section-title">Selected Work</h2>
   <div class="projects-grid">
 
     <div class="project-row">
       <span class="project-num">01</span>
+      <div class="project-info">
+        <h3>SAE Formula Car — Switch Plate Design</h3>
+        <p>Designed a switch plate to mount master switches and the TSMP to the car chassis while keeping it watertight. Researched rules-compliant components to match car parameters.</p>
+      </div>
+      <span class="project-badge badge-sae">SAE / Powertrain</span>
+    </div>
+
+    <div class="project-row">
+      <span class="project-num">02</span>
+      <div class="project-info">
+        <h3>SAE Formula Car — Cooling System</h3>
+        <p>Researched cooling tube specifications for rule compliance, then physically installed the cooling tubes through the car chassis as part of Iowa State's SAE Formula Team.</p>
+      </div>
+      <span class="project-badge badge-sae">SAE / Cooling</span>
+    </div>
+
+    <div class="project-row">
+      <span class="project-num">03</span>
       <div class="project-info">
         <h3>Night Vision Helmet</h3>
         <p>Designing and printing a helmet with an integrated IR camera feed displayed on an internal screen — combining FDM fabrication with basic electronics integration.</p>
@@ -278,16 +436,7 @@
     </div>
 
     <div class="project-row">
-      <span class="project-num">02</span>
-      <div class="project-info">
-        <h3>SAE Formula Car — Cooling System</h3>
-        <p>Researched cooling tube specifications for rule compliance and helped route the system through the car chassis as part of Iowa State's SAE Formula Team powertrain group.</p>
-      </div>
-      <span class="project-badge badge-sae">SAE / Powertrain</span>
-    </div>
-
-    <div class="project-row">
-      <span class="project-num">03</span>
+      <span class="project-num">04</span>
       <div class="project-info">
         <h3>John Deere Pedal Tractor Headlight</h3>
         <p>Custom modeled and printed a replacement headlight housing for an antique John Deere pedal tractor, reverse-engineering the original geometry for a precise fit.</p>
@@ -295,13 +444,13 @@
       <span class="project-badge badge-design">CAD / FDM</span>
     </div>
 
-    <div class="project-row" style="grid-template-columns: 60px 1fr auto auto; gap: 1.5rem;">
-      <span class="project-num">04</span>
+    <div class="project-row" style="grid-template-columns: 56px 1fr auto auto; gap: 1.5rem;">
+      <span class="project-num">05</span>
       <div class="project-info">
         <h3>Full-Scale Halo Spartan Armor</h3>
         <p>Scaled, sliced, and printed a complete set of Halo Spartan armor across multiple parts — requiring precise scaling, fit testing, and assembly across many print sessions.</p>
       </div>
-      <img src="Halo.jpg" alt="Halo Spartan Armor" style="width: 120px; height: 80px; object-fit: cover; border-radius: 3px; border: 1px solid rgba(255,255,255,0.1);">
+      <img src="Halo.jpg" alt="Halo Spartan Armor" style="width: 110px; height: 74px; object-fit: cover; border-radius: 2px; border: 1px solid rgba(255,255,255,0.08);">
       <span class="project-badge badge-print">3D Print</span>
     </div>
 
@@ -309,12 +458,13 @@
 </section>
 
 <hr class="full-divider">
+
 <section id="contact">
-  <div class="section-label">04 &mdash; Contact</div>
+  <div class="section-label">05 &mdash; Contact</div>
   <h2 class="section-title">Get in Touch</h2>
   <div class="contact-wrap">
     <div class="contact-text">
-      <p>I'm actively seeking a mechanical engineering internship for summer 2026. If you'd like to connect or discuss a role, feel free to reach out.</p>
+      <p>I'm seeking a mechanical engineering internship for summer 2027 and am open to discussing co-op opportunities. If you'd like to connect or talk about a role, feel free to reach out.</p>
       <a href="mailto:Lkautzky@iastate.edu" class="btn btn-primary">Send an Email</a>
     </div>
     <div class="contact-links">
@@ -322,13 +472,22 @@
         <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         Lkautzky@iastate.edu
       </a>
+      <a href="tel:3312200624" class="contact-link">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+        331-220-0624
+      </a>
       <a href="https://www.linkedin.com/in/lucas-kautzky-18b60a383/" class="contact-link">
         <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
         linkedin.com/in/lucas-kautzky
       </a>
+      <a href="https://lucaskautzky.com" class="contact-link">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        lucaskautzky.com
+      </a>
     </div>
   </div>
 </section>
+
 <footer>
   <p>&copy; 2026 Lucas Kautzky &mdash; Mechanical Engineering</p>
   <p>Iowa State University &mdash; Expected May 2029</p>
