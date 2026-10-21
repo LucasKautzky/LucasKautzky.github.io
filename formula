@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formula SAE — Lucas Kautzky</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0b0d; --surface: #111315; --surface2: #181b1e;
+    --border: rgba(255,255,255,0.06); --border2: rgba(255,255,255,0.12);
+    --red: #C41E3A; --gold: #CFB53B; --gold2: #e8d06a;
+    --text: #e8e6df; --muted: #6b6b63;
+    --mono: 'Space Mono', monospace; --sans: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 3rem; height: 56px;
+    background: rgba(10,11,13,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border2);
+  }
+  .nav-logo { font-family: var(--mono); font-size: 12px; color: var(--gold); letter-spacing: 0.1em; }
+  .nav-back { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; transition: color 0.2s; display: flex; align-items: center; gap: 8px; }
+  .nav-back:hover { color: var(--gold); }
+  .nav-back svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  .blueprint-bg {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(rgba(196,30,58,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(196,30,58,0.04) 1px, transparent 1px),
+      linear-gradient(rgba(207,181,59,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(207,181,59,0.02) 1px, transparent 1px);
+    background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  }
+
+  header { position: relative; z-index: 1; padding: 5.5rem 3rem 3rem; border-bottom: 1px solid var(--border2); }
+  .header-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: 0.25em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 10px; }
+  .header-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--gold); display: block; }
+  h1 { font-family: var(--mono); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+  h1 em { color: var(--gold); font-style: normal; }
+  .header-sub { font-size: 13px; color: var(--muted); font-weight: 300; font-family: var(--mono); letter-spacing: 0.05em; }
+
+  /* TABS */
+  .tab-bar { position: relative; z-index: 1; display: flex; border-bottom: 1px solid var(--border2); }
+  .tab-btn {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 1rem 2rem; color: var(--muted); cursor: pointer; border: none; background: none;
+    border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.2s, border-color 0.2s;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .tab-content { display: none; position: relative; z-index: 1; padding: 3rem; max-width: 1000px; margin: 0 auto; }
+  .tab-content.active { display: block; }
+
+  .section-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 10px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, var(--border2), transparent); }
+  h2 { font-family: var(--mono); font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+
+  .car-meta { display: flex; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 2.5rem; }
+  .meta-cell { background: var(--surface); padding: 1rem 1.5rem; flex: 1; }
+  .meta-key { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
+  .meta-val { font-family: var(--mono); font-size: 1.2rem; font-weight: 700; color: var(--gold); }
+
+  .content-text p { color: var(--muted); font-weight: 300; font-size: 1rem; line-height: 1.8; margin-bottom: 1rem; }
+  .content-text p:last-child { margin-bottom: 0; }
+
+  .work-list { margin-top: 2rem; display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
+  .work-item { background: var(--surface); padding: 1.25rem 1.5rem; border-left: 2px solid transparent; transition: background 0.2s, border-color 0.2s; }
+  .work-item:hover { background: var(--surface2); border-left-color: var(--red); }
+  .work-item-title { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 5px; letter-spacing: 0.03em; }
+  .work-item-desc { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.65; }
+
+  /* PHOTO GRID */
+  .photo-section { margin-top: 2.5rem; }
+  .photo-section-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+  .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 3px; }
+  .photo-slot {
+    aspect-ratio: 4/3; background: var(--surface); border: 1px dashed var(--border2);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px; cursor: pointer; transition: border-color 0.2s; position: relative; overflow: hidden;
+  }
+  .photo-slot:hover { border-color: var(--gold); }
+  .photo-slot img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+  .photo-slot .placeholder-text { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; text-align: center; line-height: 1.6; z-index: 1; }
+  .photo-slot .placeholder-icon { font-size: 20px; opacity: 0.3; z-index: 1; }
+  .photo-slot.has-image .placeholder-text,
+  .photo-slot.has-image .placeholder-icon { display: none; }
+
+  /* LIGHTBOX */
+  .lightbox { position: fixed; inset: 0; z-index: 1000; background: rgba(10,11,13,0.96); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+  .lightbox.open { opacity: 1; pointer-events: all; }
+  .lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; border: 1px solid var(--border2); }
+  .lightbox-close { position: fixed; top: 1.5rem; right: 2rem; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; cursor: pointer; background: none; border: none; transition: color 0.2s; }
+  .lightbox-close:hover { color: var(--gold); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+
+  footer { position: relative; z-index: 1; border-top: 1px solid var(--border2); padding: 1.75rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+  footer p { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.06em; }
+
+  @media (max-width: 700px) {
+    nav, header, .tab-content, footer { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .tab-btn { padding: 0.75rem 1rem; font-size: 10px; }
+    .car-meta { flex-wrap: wrap; }
+    .meta-cell { flex: 1 1 40%; }
+    .photo-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="blueprint-bg"></div>
+
+<nav>
+  <span class="nav-logo">lucaskautzky.com</span>
+  <a href="index.html" class="nav-back">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Portfolio
+  </a>
+</nav>
+
+<header>
+  <div class="header-eyebrow">Iowa State University</div>
+  <h1>Formula <em>SAE</em></h1>
+  <p class="header-sub">// ISU Formula Team — Powertrain Subsystem</p>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('cr30', this)">CR-30</button>
+  <button class="tab-btn" onclick="switchTab('cr31', this)">CR-31</button>
+</div>
+
+<!-- CR-30 -->
+<div class="tab-content active" id="tab-cr30">
+  <div class="section-label">Car 30</div>
+  <h2>CR-30 — Cooling System</h2>
+
+  <div class="car-meta">
+    <div class="meta-cell"><div class="meta-key">Role</div><div class="meta-val">Junior Cooling Engineer</div></div>
+    <div class="meta-cell"><div class="meta-key">Subsystem</div><div class="meta-val">Powertrain</div></div>
+    <div class="meta-cell"><div class="meta-key">Status</div><div class="meta-val">Complete</div></div>
+  </div>
+
+  <div class="content-text">
+    <p>CR-30 was my first car with the Formula team. I came on as a junior cooling engineer, working under the lead powertrain engineers to help get the cooling system sorted out and installed on the car.</p>
+    <p>My main job was researching cooling tube options that fit within the rulebook and worked with the car's layout, then helping physically route and install them through the chassis. It was a lot of learning on the fly — figuring out how the rules translate to actual hardware, and how to fit everything into a space that's already pretty tight.</p>
+    <p>I didn't own a big chunk of the design on CR-30, but it gave me a solid foundation in how the team works and what it actually takes to get a system from spec to installed on a car.</p>
+  </div>
+
+  <div class="work-list">
+    <div class="work-item">
+      <div class="work-item-title">Cooling Tube Research</div>
+      <div class="work-item-desc">Researched tube options to find ones that met SAE rulebook requirements while fitting the car's cooling demands and routing constraints.</div>
+    </div>
+    <div class="work-item">
+      <div class="work-item-title">Chassis Installation</div>
+      <div class="work-item-desc">Helped physically route and install cooling tubes through the car's chassis alongside the lead powertrain engineers.</div>
+    </div>
+    <div class="work-item">
+      <div class="work-item-title">Lead Engineer Support</div>
+      <div class="work-item-desc">Assisted lead engineers with powertrain work — learning how decisions get made under real constraints and how the team operates.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CR-31 -->
+<div class="tab-content" id="tab-cr31">
+  <div class="section-label">Car 31</div>
+  <h2>CR-31 — Switch Plate & TSMP</h2>
+
+  <div class="car-meta">
+    <div class="meta-cell"><div class="meta-key">Role</div><div class="meta-val">Powertrain — Switch Plate</div></div>
+    <div class="meta-cell"><div class="meta-key">Subsystem</div><div class="meta-val">Electrical / Safety</div></div>
+    <div class="meta-cell"><div class="meta-key">Status</div><div class="meta-val">In Progress</div></div>
+  </div>
+
+  <div class="content-text">
+    <p>On CR-31 I moved into a more independent role, taking ownership of the switch plate design. The switch plate mounts the car's master switches and the TSMP (Tractive System Measuring Point) to the chassis.</p>
+    <p>The TSMP is a safety-critical component — it's what you use to verify that the tractive battery is at 600V and that the chassis is properly isolated from ground. Getting the mounting right matters both for function and for passing technical inspection.</p>
+    <p>The design had to keep the enclosure watertight while staying within the rulebook and fitting the physical constraints of the chassis. I went through several iterations of the TSMP mount, printing and testing multiple versions before landing on something that worked.</p>
+  </div>
+
+  <div class="work-list">
+    <div class="work-item">
+      <div class="work-item-title">Switch Plate Design</div>
+      <div class="work-item-desc">Designed the plate to mount the master switches and TSMP to the chassis. Had to balance rulebook compliance, watertight sealing, and physical fit on the car.</div>
+    </div>
+    <div class="work-item">
+      <div class="work-item-title">TSMP Mount — Multiple Iterations</div>
+      <div class="work-item-desc">The TSMP mount went through several printed versions. Each iteration addressed fit, clearance, or mounting issues found from testing the previous version on the car.</div>
+    </div>
+    <div class="work-item">
+      <div class="work-item-title">Rules Research</div>
+      <div class="work-item-desc">Researched master switch specifications to make sure every component met SAE rules while still being compatible with the car's electrical system.</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="photo-section">
+    <div class="photo-section-label">CAD — Switch Plate & TSMP</div>
+    <div class="photo-grid">
+      <div class="photo-slot" onclick="openLightbox(this)"><span class="placeholder-icon">⬡</span><span class="placeholder-text">CAD photo<br>coming soon</span></div>
+      <div class="photo-slot" onclick="openLightbox(this)"><span class="placeholder-icon">⬡</span><span class="placeholder-text">CAD photo<br>coming soon</span></div>
+      <div class="photo-slot" onclick="openLightbox(this)"><span class="placeholder-icon">⬡</span><span class="placeholder-text">CAD photo<br>coming soon</span></div>
+      <div class="photo-slot" onclick="openLightbox(this)"><span class="placeholder-icon">⬡</span><span class="placeholder-text">CAD photo<br>coming soon</span></div>
+      <div class="photo-slot" onclick="openLightbox(this)"><span class="placeholder-icon">⬡</span><span class="placeholder-text">CAD photo<br>coming soon</span></div>
+    </div>
+  </div>
+
+  <div class="photo-section" style="margin-top: 2rem;">
+    <div class="photo-section-label">Printed Versions — TSMP Mount</div>
+    <div class="photo-grid">
+      <div class="photo-slot" onclick="openLightbox(this)"><span class="placeholder-icon">⬡</span><span class="placeholder-text">Version 1<br>coming soon</span></div>
+      <div class="photo-slot" onclick="openLightbox(this)"><span class="placeholder-icon">⬡</span><span class="placeholder-text">Version 2<br>coming soon</span></div>
+      <div class="photo-slot" onclick="openLightbox(this)"><span class="placeholder-icon">⬡</span><span class="placeholder-text">Current version<br>coming soon</span></div>
+    </div>
+  </div>
+
+  <div class="photo-section" style="margin-top: 2rem;">
+    <div class="photo-section-label">On the Car</div>
+    <div class="photo-grid">
+      <div class="photo-slot" onclick="openLightbox(this)"><span class="placeholder-icon">⬡</span><span class="placeholder-text">IRL photo<br>coming soon</span></div>
+      <div class="photo-slot" onclick="openLightbox(this)"><span class="placeholder-icon">⬡</span><span class="placeholder-text">IRL photo<br>coming soon</span></div>
+      <div class="photo-slot" onclick="openLightbox(this)"><span class="placeholder-icon">⬡</span><span class="placeholder-text">IRL photo<br>coming soon</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close">✕ &nbsp;Close</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<footer>
+  <p>&copy; 2026 Lucas Kautzky &mdash; Mechanical Engineering</p>
+  <p>Iowa State University — Formula SAE</p>
+</footer>
+
+<script>
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function openLightbox(el) {
+    const img = el.querySelector('img');
+    if (!img) return;
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
+</body>
+</html>
