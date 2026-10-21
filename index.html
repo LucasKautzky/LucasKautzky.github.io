@@ -8,18 +8,11 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #0a0b0d;
-    --surface: #111315;
-    --surface2: #181b1e;
-    --border: rgba(255,255,255,0.06);
-    --border2: rgba(255,255,255,0.12);
-    --red: #C41E3A;
-    --gold: #CFB53B;
-    --gold2: #e8d06a;
-    --text: #e8e6df;
-    --muted: #6b6b63;
-    --mono: 'Space Mono', monospace;
-    --sans: 'DM Sans', sans-serif;
+    --bg: #0a0b0d; --surface: #111315; --surface2: #181b1e;
+    --border: rgba(255,255,255,0.06); --border2: rgba(255,255,255,0.12);
+    --red: #C41E3A; --gold: #CFB53B; --gold2: #e8d06a;
+    --text: #e8e6df; --muted: #6b6b63;
+    --mono: 'Space Mono', monospace; --sans: 'DM Sans', sans-serif;
   }
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
@@ -37,10 +30,7 @@
   .nav-links a { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; color: var(--muted); transition: color 0.2s; text-transform: uppercase; }
   .nav-links a:hover { color: var(--gold); }
 
-  #hero {
-    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
-    padding: 7rem 3rem 5rem; position: relative; overflow: hidden;
-  }
+  #hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 7rem 3rem 5rem; position: relative; overflow: hidden; }
 
   .blueprint-bg {
     position: absolute; inset: 0; pointer-events: none;
@@ -54,11 +44,7 @@
     -webkit-mask-image: radial-gradient(ellipse 90% 90% at 40% 50%, black 20%, transparent 100%);
   }
 
-  .turbine-bg {
-    position: absolute; right: 4%; top: 50%; transform: translateY(-50%);
-    opacity: 0.055; width: min(480px, 50vw); height: min(480px, 50vw);
-    pointer-events: none;
-  }
+  .turbine-bg { position: absolute; right: 4%; top: 50%; transform: translateY(-50%); opacity: 0.055; width: min(480px, 50vw); height: min(480px, 50vw); pointer-events: none; }
 
   .corner { position: absolute; width: 14px; height: 14px; }
   .corner-tl { top: 70px; left: 20px; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); opacity: 0.4; }
@@ -66,31 +52,15 @@
   .corner-bl { bottom: 56px; left: 20px; border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); opacity: 0.4; }
   .corner-br { bottom: 56px; right: 20px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); opacity: 0.4; }
 
-  .title-block {
-    position: absolute; bottom: 0; right: 0;
-    border-left: 1px solid var(--border2); border-top: 1px solid var(--border2);
-    display: flex;
-  }
-  .title-block-cell {
-    padding: 0.5rem 1.2rem; border-right: 1px solid var(--border);
-    font-family: var(--mono); font-size: 9px; color: var(--muted);
-    letter-spacing: 0.12em; text-transform: uppercase;
-  }
+  .title-block { position: absolute; bottom: 0; right: 0; border-left: 1px solid var(--border2); border-top: 1px solid var(--border2); display: flex; }
+  .title-block-cell { padding: 0.5rem 1.2rem; border-right: 1px solid var(--border); font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
   .title-block-cell:last-child { border-right: none; }
   .title-block-cell span { display: block; color: var(--gold); margin-top: 3px; font-size: 10px; }
 
-  .hero-eyebrow {
-    font-family: var(--mono); font-size: 10px; letter-spacing: 0.25em;
-    color: var(--gold); text-transform: uppercase; margin-bottom: 1.25rem;
-    display: flex; align-items: center; gap: 10px;
-  }
+  .hero-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: 0.25em; color: var(--gold); text-transform: uppercase; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 10px; }
   .hero-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--gold); display: block; }
 
-  h1.hero-name {
-    font-family: var(--mono); font-size: clamp(2.8rem, 7vw, 5.5rem);
-    font-weight: 700; line-height: 1.05; letter-spacing: -0.02em;
-    max-width: 12ch; margin-bottom: 1.5rem;
-  }
+  h1.hero-name { font-family: var(--mono); font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; max-width: 12ch; margin-bottom: 1.5rem; }
   h1.hero-name em { color: var(--gold); font-style: normal; }
 
   .hero-desc { font-size: 1.05rem; color: var(--muted); max-width: 44ch; line-height: 1.75; margin-bottom: 2.5rem; font-weight: 300; }
@@ -102,12 +72,7 @@
   .btn-secondary { background: transparent; border-color: var(--border2); color: var(--muted); }
   .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
 
-  .hero-scroll {
-    position: absolute; bottom: 2rem; left: 3rem;
-    display: flex; align-items: center; gap: 10px;
-    font-family: var(--mono); font-size: 10px; color: var(--muted);
-    letter-spacing: 0.12em; text-transform: uppercase;
-  }
+  .hero-scroll { position: absolute; bottom: 2rem; left: 3rem; display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
   .scroll-line { width: 1px; height: 36px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s ease-in-out infinite; }
   @keyframes scrollPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
@@ -119,11 +84,7 @@
   .spec-sub { font-size: 11px; color: var(--muted); margin-top: 4px; font-weight: 300; }
 
   section { padding: 5rem 3rem; max-width: 1100px; margin: 0 auto; }
-  .section-label {
-    font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em;
-    color: var(--gold); text-transform: uppercase; margin-bottom: 0.6rem;
-    display: flex; align-items: center; gap: 10px;
-  }
+  .section-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 10px; }
   .section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, var(--border2), transparent); }
   h2.section-title { font-family: var(--mono); font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; margin-bottom: 2.5rem; letter-spacing: -0.02em; }
   .full-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
@@ -145,18 +106,6 @@
   .skill-detail { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, opacity 0.25s; opacity: 0; }
   .skill-card.open .skill-detail { max-height: 180px; opacity: 1; }
   .skill-detail-inner { margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--muted); font-weight: 300; line-height: 1.7; }
-
-  .courses-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
-  .course-group-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
-  .course-list { display: flex; flex-direction: column; gap: 7px; }
-  .course-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); font-weight: 300; }
-  .course-item.current { color: var(--text); }
-  .course-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-  .course-dot.done { background: var(--red); }
-  .course-dot.in-progress { background: var(--gold); box-shadow: 0 0 5px var(--gold); }
-  .course-dot.upcoming { background: transparent; border: 1px solid var(--muted); }
-  .course-legend { display: flex; gap: 1.5rem; margin-bottom: 2rem; }
-  .legend-item { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.06em; }
 
   .projects-grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
   .project-row { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 2rem; background: var(--surface); padding: 1.5rem 2rem; transition: background 0.2s; border-left: 2px solid transparent; }
@@ -190,7 +139,6 @@
     #hero { padding: 5rem 1.5rem 4rem; }
     section { padding: 3.5rem 1.5rem; }
     .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .courses-wrap { grid-template-columns: 1fr; gap: 2rem; }
     .contact-wrap { grid-template-columns: 1fr; gap: 2rem; }
     .spec-strip { flex-wrap: wrap; }
     .spec-cell { flex: 1 1 40%; }
@@ -208,7 +156,6 @@
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
-    <li><a href="#coursework">Coursework</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -238,11 +185,12 @@
 
   <div class="hero-eyebrow">Mechanical Engineering Student — Iowa State University</div>
   <h1 class="hero-name">Lucas<br><em>Kautzky</em></h1>
-  <p class="hero-desc">Building things — from formula car cooling systems to night-vision helmets. Mechanical engineering student with a hands-on approach to design, fabrication, and problem solving.</p>
+  <p class="hero-desc">Sophomore ME student at Iowa State. On the Formula SAE team, currently in charge of the switch plate. In my free time I take apart anything mechanical just to figure out how it works.</p>
   <div class="hero-cta">
     <a href="#projects" class="btn btn-primary">View Projects</a>
-    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+    <a href="formula.html" class="btn btn-secondary">Formula SAE ↗</a>
     <a href="gallery.html" class="btn btn-secondary">Airshow Photos ↗</a>
+    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
   </div>
   <div class="hero-scroll"><div class="scroll-line"></div>Scroll</div>
 
@@ -266,9 +214,9 @@
   <h2 class="section-title">Who I Am</h2>
   <div class="about-grid">
     <div class="about-text">
-      <p>I'm a mechanical engineering student at Iowa State University who enjoys designing, building, and figuring out how things work. I'm especially interested in aerospace, propulsion, and high-performance engineering, and I like projects where I can take something from an idea to something I can actually build.</p>
-      <p>I'm a member of Iowa State's SAE Formula Team, where I work on the powertrain subsystem. I've designed switch plates, researched rules-compliant components, and previously worked as a junior cooling engineer, helping route cooling systems through the car's chassis. Formula has given me a chance to take what I'm learning in classes like statics, thermodynamics, and materials science and apply it to an actual car.</p>
-      <p>A lot of what I enjoy about engineering also carries into my personal projects. I'm currently building a night-vision helmet with an integrated IR camera and display, and 3D printing has been a hobby of mine for years. My projects have ranged from replacement parts for antique tractors to full-scale Halo armor. I like projects that force me to learn something new, whether that's electronics, programming, CAD, or fabrication.</p>
+      <p>I'm a sophomore mechanical engineering student at Iowa State. I'm on the Formula SAE team, where I'm currently in charge of the switch plate design. Outside of that, I spend a lot of my free time taking apart anything mechanical just to figure out how it works — and I've been playing guitar since 2017.</p>
+      <p>I'm a member of Iowa State's SAE Formula Team, where I work on the powertrain subsystem. I've designed switch plates, researched rules-compliant components, and previously worked as a junior cooling engineer, helping route cooling systems through the car's chassis. Formula has given me a chance to take what I'm learning in classes and apply it to an actual car.</p>
+      <p>A lot of what I enjoy about engineering carries into my personal projects too. I'm currently building a night-vision helmet with an integrated IR camera and display, and 3D printing has been a hobby for years — my projects have ranged from replacement parts for antique tractors to full-scale Halo armor. I like projects that make me learn something new, whether that's electronics, CAD, or fabrication.</p>
     </div>
     <div class="about-text">
       <p>Outside of engineering, I've played guitar since 2017 and have performed in concert series with rotating bands for audiences of more than 250 people.</p>
@@ -294,7 +242,7 @@
         <span class="tag">SolidWorks</span><span class="tag">Autodesk Inventor</span><span class="tag">Onshape</span><span class="tag">Mesh Mixer</span>
       </div>
       <div class="skill-detail">
-        <div class="skill-detail-inner">Used SolidWorks and Onshape on the SAE Formula Team to design a switch plate for mounting master switches and the TSMP to the chassis. Also used for personal projects including the custom John Deere tractor headlight housing.</div>
+        <div class="skill-detail-inner">Used SolidWorks and Onshape on the SAE Formula Team to design the switch plate and TSMP mount. Also used for personal projects including the custom John Deere tractor headlight housing.</div>
       </div>
     </div>
 
@@ -308,7 +256,7 @@
         <span class="tag">Bambu Studio</span><span class="tag">Creality Slicer</span><span class="tag">FDM Printing</span>
       </div>
       <div class="skill-detail">
-        <div class="skill-detail-inner">Extensive hands-on FDM experience across multiple printers. Printed a full-scale set of Halo Spartan armor, a custom tractor headlight housing, and am currently building a night-vision helmet with an integrated IR camera display.</div>
+        <div class="skill-detail-inner">Printed multiple iterations of the TSMP mount for the Formula car, plus personal projects including full-scale Halo armor, a tractor headlight housing, and an ongoing night-vision helmet build.</div>
       </div>
     </div>
 
@@ -331,77 +279,16 @@
 
 <hr class="full-divider">
 
-<section id="coursework">
-  <div class="section-label">03 &mdash; Coursework</div>
-  <h2 class="section-title">Academic Progress</h2>
-  <div class="course-legend">
-    <div class="legend-item"><div class="course-dot done"></div>Completed</div>
-    <div class="legend-item"><div class="course-dot in-progress"></div>In Progress (Fall 2026)</div>
-    <div class="legend-item"><div class="course-dot upcoming"></div>Upcoming</div>
-  </div>
-  <div class="courses-wrap">
-
-    <div>
-      <div class="course-group-title">Mathematics &amp; Sciences</div>
-      <div class="course-list">
-        <div class="course-item"><div class="course-dot done"></div>MATH 1650 — Calculus I</div>
-        <div class="course-item"><div class="course-dot done"></div>MATH 1660 — Calculus II</div>
-        <div class="course-item current"><div class="course-dot in-progress"></div>MATH 2650 — Calculus III</div>
-        <div class="course-item"><div class="course-dot done"></div>CHEM 1670 — Chemistry</div>
-        <div class="course-item"><div class="course-dot done"></div>PHYS 2310+L — Physics I</div>
-        <div class="course-item current"><div class="course-dot in-progress"></div>PHYS 2320+L — Physics II</div>
-      </div>
-    </div>
-
-    <div>
-      <div class="course-group-title">Engineering Core</div>
-      <div class="course-list">
-        <div class="course-item"><div class="course-dot done"></div>ENGR 1010 — Orientation</div>
-        <div class="course-item"><div class="course-dot done"></div>ME 1600 — Analysis</div>
-        <div class="course-item"><div class="course-dot done"></div>ME 1700 — Graphics/CAD</div>
-        <div class="course-item current"><div class="course-dot in-progress"></div>CE 2710 — Found. of Statics</div>
-        <div class="course-item"><div class="course-dot upcoming"></div>CE 2720 — Applied Statics</div>
-        <div class="course-item current"><div class="course-dot in-progress"></div>MATE 2730 — Materials</div>
-      </div>
-    </div>
-
-    <div>
-      <div class="course-group-title">General Education</div>
-      <div class="course-list">
-        <div class="course-item"><div class="course-dot done"></div>ENGL 1500 — Critical Thinking</div>
-        <div class="course-item"><div class="course-dot done"></div>LIB 1600 — Library</div>
-        <div class="course-item current"><div class="course-dot in-progress"></div>ENGL 2500 — Communication</div>
-        <div class="course-item"><div class="course-dot done"></div>Gen Ed — Econ 1010/1020</div>
-      </div>
-    </div>
-
-    <div>
-      <div class="course-group-title">Upcoming</div>
-      <div class="course-list">
-        <div class="course-item"><div class="course-dot upcoming"></div>MATH 2670 — Diff. Equations</div>
-        <div class="course-item"><div class="course-dot upcoming"></div>ME 2310 — Thermo I</div>
-        <div class="course-item"><div class="course-dot upcoming"></div>EM 3240 — Mech. of Materials</div>
-        <div class="course-item"><div class="course-dot upcoming"></div>ME 3250 — Mechanical Design</div>
-        <div class="course-item"><div class="course-dot upcoming"></div>ME 3350 — Fluids</div>
-        <div class="course-item"><div class="course-dot upcoming"></div>ME 4360 — Heat Transfer</div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<hr class="full-divider">
-
 <section id="projects">
-  <div class="section-label">04 &mdash; Projects</div>
+  <div class="section-label">03 &mdash; Projects</div>
   <h2 class="section-title">Selected Work</h2>
   <div class="projects-grid">
 
     <div class="project-row">
       <span class="project-num">01</span>
       <div class="project-info">
-        <h3>SAE Formula Car — Switch Plate Design</h3>
-        <p>Designed a switch plate to mount master switches and the TSMP to the car chassis while keeping it watertight. Researched rules-compliant components to match car parameters.</p>
+        <h3>SAE Formula Car — Switch Plate & TSMP</h3>
+        <p>Designed the switch plate and TSMP mount for CR-31. The TSMP is used to verify the tractive battery is at 600V and that the chassis is properly isolated from ground. Went through multiple printed iterations to get the fit and sealing right.</p>
       </div>
       <span class="project-badge badge-sae">SAE / Powertrain</span>
     </div>
@@ -410,7 +297,7 @@
       <span class="project-num">02</span>
       <div class="project-info">
         <h3>SAE Formula Car — Cooling System</h3>
-        <p>Researched cooling tube specifications for rule compliance, then physically installed the cooling tubes through the car chassis as part of Iowa State's SAE Formula Team.</p>
+        <p>On CR-30, researched cooling tube options to meet SAE rules, then helped physically route and install them through the car's chassis alongside the lead powertrain engineers.</p>
       </div>
       <span class="project-badge badge-sae">SAE / Cooling</span>
     </div>
@@ -419,7 +306,7 @@
       <span class="project-num">03</span>
       <div class="project-info">
         <h3>Night Vision Helmet</h3>
-        <p>Designing and printing a helmet with an integrated IR camera feed displayed on an internal screen — combining FDM fabrication with basic electronics integration.</p>
+        <p>Building a helmet with an IR camera feed displayed on an internal screen. Custom modeled in CAD and printed in FDM — currently working through the electronics integration.</p>
       </div>
       <span class="project-badge badge-print">In Progress</span>
     </div>
@@ -428,7 +315,7 @@
       <span class="project-num">04</span>
       <div class="project-info">
         <h3>John Deere Pedal Tractor Headlight</h3>
-        <p>Custom modeled and printed a replacement headlight housing for an antique John Deere pedal tractor, reverse-engineering the original geometry for a precise fit.</p>
+        <p>Reverse-engineered and printed a replacement headlight housing for an antique John Deere pedal tractor. Modeled from scratch to match the original geometry.</p>
       </div>
       <span class="project-badge badge-design">CAD / FDM</span>
     </div>
@@ -437,7 +324,7 @@
       <span class="project-num">05</span>
       <div class="project-info">
         <h3>Full-Scale Halo Spartan Armor</h3>
-        <p>Scaled, sliced, and printed a complete set of Halo Spartan armor across multiple parts — requiring precise scaling, fit testing, and assembly across many print sessions.</p>
+        <p>Scaled, sliced, and printed a complete set of Halo Spartan armor. Involved a lot of part splitting, scaling decisions, and test fits across many print sessions.</p>
       </div>
       <img src="Halo.jpg" alt="Halo Spartan Armor" style="width: 110px; height: 74px; object-fit: cover; border-radius: 2px; border: 1px solid rgba(255,255,255,0.08);">
       <span class="project-badge badge-print">3D Print</span>
@@ -449,7 +336,7 @@
 <hr class="full-divider">
 
 <section id="contact">
-  <div class="section-label">05 &mdash; Contact</div>
+  <div class="section-label">04 &mdash; Contact</div>
   <h2 class="section-title">Get in Touch</h2>
   <div class="contact-wrap">
     <div class="contact-text">
